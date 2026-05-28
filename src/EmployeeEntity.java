@@ -9,6 +9,14 @@ public class EmployeeEntity {
         this.departmentId = departmentId;
     }
 
+
+    public EmployeeEntity(int employeeId,String name,int age,int departmentId) {
+        this.employeeId = employeeId;
+        this.employeeName = name;
+        this.age = age;
+        this.departmentId = departmentId;
+    }
+
     public int getEmployeeId() {
         return employeeId;
     }

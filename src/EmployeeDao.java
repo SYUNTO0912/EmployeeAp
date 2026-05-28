@@ -16,9 +16,9 @@ public class EmployeeDao {
         String sql = "insert into employees (employee_name, age, department_id) values (?,?,?)";
         try {
             stmt = conn.prepareStatement(sql);
-            stmt.setString(2, employee.getEmployeeName());
-            stmt.setInt(3, employee.getAge());
-            stmt.setInt(4, employee.getDepartmentId());
+            stmt.setString(1, employee.getEmployeeName());
+            stmt.setInt(2, employee.getAge());
+            stmt.setInt(3, employee.getDepartmentId());
             int rows = stmt.executeUpdate();
         }
         catch(SQLException e) {
@@ -36,6 +36,22 @@ public class EmployeeDao {
         }
     }
 
+    public void deleteEmployee(int employeeId) throws  SQLException{
+        try {
+            String sql = "delete from employees where employee_id = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1,employeeId);
+            int rows = stmt.executeUpdate();
+        }
+        catch (SQLException e ) {
+            System.out.println("異常終了");
+            e.printStackTrace();
+        }
+        finally {
+            stmt.close();
+
+        }
+    }
 
 
     public void showEmployeeTable() throws SQLException{
@@ -45,7 +61,7 @@ public class EmployeeDao {
             stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
-                EmployeeEntity emp = new EmployeeEntity(rs.getString(2),rs.getInt(3),rs.getInt(4));
+                EmployeeEntity emp = new EmployeeEntity(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getInt(4));
 
                 list.add(emp);
             }

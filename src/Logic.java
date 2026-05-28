@@ -30,7 +30,10 @@ public class Logic {
             }
 
             if (process_number == 2) {
-
+                System.out.println("削除したい従業員番号を入力してください");
+                Scanner scanner = new Scanner(System.in);
+                int employeeId = scanner.nextInt();
+                empDao.deleteEmployee(employeeId);
             }
 
             if (process_number == 3) {
