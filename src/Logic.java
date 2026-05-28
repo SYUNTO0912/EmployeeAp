@@ -23,7 +23,8 @@ public class Logic {
                 age = scanner.nextInt();
                 System.out.print("部署番号");
                 department_id = scanner.nextInt();
-                empDao.addEmployee(name,age,department_id);
+                EmployeeEntity emp = new EmployeeEntity(name,age,department_id);
+                empDao.addEmployee(emp);
 
 
             }
@@ -37,7 +38,7 @@ public class Logic {
             }
 
             if (process_number == 4) {
-
+                empDao.showEmployeeTable();
             }
         }
         catch(SQLException e) {

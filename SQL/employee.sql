@@ -1,4 +1,4 @@
-if exist employees drop table employees;
+drop  table if exists employees;
 
 create table employees(
     employee_id integer primary key auto_increment,

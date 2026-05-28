@@ -2,7 +2,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main() {
+    public static void main(String[] args) {
         System.out.println("1~4の数字を入力してください");
         System.out.println("1:従業員の追加");
         System.out.println("2:従業員の削除");
