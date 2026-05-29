@@ -133,4 +133,17 @@ public class EmployeeDao {
             }
         }
 
-    }}
+    }
+
+    public String showDepartmentName(int showDepartmentEmployeeId) throws SQLException {
+        try {
+            DepartmentDao ddao = new DepartmentDao(conn);
+            String departmentName = ddao.showDepartmentName(showDepartmentEmployeeId);
+            return departmentName;
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
