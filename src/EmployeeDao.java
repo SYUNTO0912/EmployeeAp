@@ -3,6 +3,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class EmployeeDao {
     private Connection conn;
@@ -10,6 +11,7 @@ public class EmployeeDao {
     public EmployeeDao(Connection conn) {
         this.conn = conn;
     }
+    Scanner scanner = new Scanner(System.in);
 
 
     public void addEmployee(EmployeeEntity employee) throws SQLException {
@@ -50,6 +52,48 @@ public class EmployeeDao {
         finally {
             stmt.close();
 
+        }
+    }
+
+    public void alterEmployeeElement(int employeeId,int alterElement) throws SQLException {
+        try {
+            switch (alterElement) {
+                case 1:
+                    System.out.println("新しい名前を入力してください");
+                    String newName = scanner.nextLine();
+                    String sql1 = "update employees set employee_name = ? where employee_id = ?";
+                    stmt = conn.prepareStatement(sql1);
+                    stmt.setString(1,newName);
+                    stmt.setInt(2,employeeId);
+                    int rows1 = stmt.executeUpdate();
+                    break;
+                case 2:
+                    System.out.println("新しい年齢を入力してください");
+                    int newAge = scanner.nextInt();
+                    String sql2 = "update employees set employee_age = ? where employee_id = ?";
+                    stmt = conn.prepareStatement(sql2);
+                    stmt.setInt(1,newAge);
+                    stmt.setInt(2,employeeId);
+                    int rows2 = stmt.executeUpdate();
+                    break;
+
+                case 3:
+                    System.out.println("新しい部署番号を入力してください");
+                    int newDepartmentId = scanner.nextInt();
+                    String sql3 = "update employees set department_id = ? where employee_id = ?";
+                    stmt = conn.prepareStatement(sql3);
+                    stmt.setInt(1,newDepartmentId);
+                    stmt.setInt(2,employeeId);
+                    int rows = stmt.executeUpdate();
+                    break;
+
+                default:
+                    System.out.println("正しい番号を入力してください");
+            }
+
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
         }
     }
 
