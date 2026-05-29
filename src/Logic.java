@@ -37,6 +37,13 @@ public class Logic {
             }
 
             if (process_number == 3) {
+                System.out.println("変更したい従業員番号を入力してください");
+                Scanner scanner = new Scanner(System.in);
+                int employeeId = scanner.nextInt();
+                System.out.println("変更したい内容を選択してください");
+                System.out.println("1:名前、2:年齢、3:部署番号");
+                int alterElement = scanner.nextInt();
+                empDao.alterEmployeeElement(employeeId, alterElement);
 
             }
 
