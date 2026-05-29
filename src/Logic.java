@@ -43,6 +43,15 @@ public class Logic {
             if (process_number == 4) {
                 empDao.showEmployeeTable();
             }
+
+            if (process_number == 5) {
+                System.out.println("従業員番号を入力してください");
+                Scanner scanner = new Scanner(System.in);
+                int showDepartmentEmployeeId = scanner.nextInt();
+                String departmentName = empDao.showDepartmentName(showDepartmentEmployeeId);
+                System.out.println(departmentName + "です。");
+
+            }
         }
         catch(SQLException e) {
             System.out.println("例外が発生しました");

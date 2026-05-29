@@ -8,6 +8,7 @@ public class Main {
         System.out.println("2:従業員の削除");
         System.out.println("3:従業員情報の変更");
         System.out.println("4:従業員テーブルの表示");
+        System.out.println("5:部署名の表示");
 
         Scanner scanner = new Scanner(System.in);
         int process_number = scanner.nextInt();
