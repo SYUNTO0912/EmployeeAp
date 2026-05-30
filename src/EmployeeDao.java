@@ -98,7 +98,7 @@ public class EmployeeDao {
     }
 
 
-    public void showEmployeeTable() throws SQLException{
+    public ArrayList<EmployeeEntity> showEmployeeTable() throws SQLException{
         ArrayList<EmployeeEntity> list = new ArrayList<>();
         String sql = "select * from employees";
         try {
@@ -109,14 +109,7 @@ public class EmployeeDao {
 
                 list.add(emp);
             }
-            for (EmployeeEntity emp : list) {
-                System.out.print("従業員番号:" + emp.getEmployeeId() + ",");
-                System.out.print("名前:" + emp.getEmployeeName() + ",");
-                System.out.print("年齢:" + emp.getAge() + ",");
-                System.out.print("部署番号:" + emp.getDepartmentId() );
-                System.out.println(" ");
-            }
-
+            return list;
         }
         catch(SQLException e) {
             System.out.println("異常が発生しました");
@@ -132,6 +125,7 @@ public class EmployeeDao {
                 conn.close();
             }
         }
+        return null;
 
     }
 

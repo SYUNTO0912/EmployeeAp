@@ -2,6 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Logic {
@@ -48,7 +49,15 @@ public class Logic {
             }
 
             if (process_number == 4) {
-                empDao.showEmployeeTable();
+                ArrayList<EmployeeEntity> list = new ArrayList<>();
+                list = empDao.showEmployeeTable();
+                for (EmployeeEntity emp : list) {
+                    System.out.print("従業員番号:" + emp.getEmployeeId() + ",");
+                    System.out.print("名前:" + emp.getEmployeeName() + ",");
+                    System.out.print("年齢:" + emp.getAge() + ",");
+                    System.out.print("部署番号:" + emp.getDepartmentId() );
+                    System.out.println(" ");
+                }
             }
 
             if (process_number == 5) {
