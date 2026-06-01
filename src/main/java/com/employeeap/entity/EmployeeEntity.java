@@ -1,3 +1,5 @@
+package com.employeeap.entity;
+
 public class EmployeeEntity {
     private int employeeId;
     private String employeeName;

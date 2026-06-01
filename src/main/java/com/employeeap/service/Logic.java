@@ -1,6 +1,9 @@
+package com.employeeap.service;
+
+import com.employeeap.dao.EmployeeDao;
+import com.employeeap.entity.EmployeeEntity;
+import com.employeeap.util.ConnectManager;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
