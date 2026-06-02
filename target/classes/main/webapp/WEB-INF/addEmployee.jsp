@@ -7,9 +7,15 @@
 </head>
 <body>
     <h1>従業員管理システムへようこそ</h1>
-    <form action = "addEmployee" method = "post">
+    <%-- 
+        【修正内容】 action 属性を "${pageContext.request.contextPath}/addEmployee" に変更。
+        相対パスではなく絶対パス（コンテキストパス起点）にすることで、
+        どの画面から遷移してきた場合でも確実にサーブレットを呼び出せるようにします。
+    --%>
+    <form action = "${pageContext.request.contextPath}/addEmployee" method = "post">
     <input name = "name" value = "name">
-    <input name = "age" value = "age">
+
+    <input name = "age" >
     <select name = "departmentId" value = "department">
     <option value = "1">開発部</option>
     <option value = "2">営業部</option>

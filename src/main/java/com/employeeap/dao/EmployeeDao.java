@@ -19,25 +19,21 @@ public class EmployeeDao {
 
     public void addEmployee(EmployeeEntity employee) throws SQLException {
         String sql = "insert into employees (employee_name, age, department_id) values (?,?,?)";
-        try {
-            stmt = conn.prepareStatement(sql);
+        /**
+         * 【修正内容】
+         * DAO内で Connection をクローズしてしまうと、呼び出し元で再利用できなくなるため、
+         * stmt (PreparedStatement) のみのクローズ管理に変更します。
+         * Connection のクローズはサーブレット側の try-with-resources が行います。
+         */
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, employee.getEmployeeName());
             stmt.setInt(2, employee.getAge());
             stmt.setInt(3, employee.getDepartmentId());
-            int rows = stmt.executeUpdate();
-        }
-        catch(SQLException e) {
-            System.out.println("異常が発生しました");
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("DAO: 登録処理中に異常が発生しました");
             e.printStackTrace();
-        }
-        finally {
-            if(stmt != null) {
-                stmt.close();
-            }
-
-            if (conn != null) {
-                conn.close();
-            }
+            throw e; // エラーをサーブレットに伝播させて、処理を中断させる
         }
     }
 
