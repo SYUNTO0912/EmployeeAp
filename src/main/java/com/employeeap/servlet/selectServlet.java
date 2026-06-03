@@ -24,7 +24,7 @@ public class selectServlet extends HttpServlet {
         }
 
         else if (action.equals("update")) {
-            next = "/WEB-INF/update.jsp" ;
+            next = "selectUpdate" ;
         }
 
         else if (action.equals("view")) {
