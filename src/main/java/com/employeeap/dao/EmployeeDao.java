@@ -14,7 +14,6 @@ public class EmployeeDao {
     public EmployeeDao(Connection conn) {
         this.conn = conn;
     }
-    Scanner scanner = new Scanner(System.in);
 
 
     public void addEmployee(EmployeeEntity employee) throws SQLException {
@@ -54,78 +53,62 @@ public class EmployeeDao {
         }
     }
 
-    public void alterEmployeeElement(int employeeId,int alterElement) throws SQLException {
-        try {
-            switch (alterElement) {
-                case 1:
-                    System.out.println("新しい名前を入力してください");
-                    String newName = scanner.nextLine();
-                    String sql1 = "update employees set employee_name = ? where employee_id = ?";
-                    stmt = conn.prepareStatement(sql1);
-                    stmt.setString(1,newName);
-                    stmt.setInt(2,employeeId);
-                    int rows1 = stmt.executeUpdate();
-                    break;
-                case 2:
-                    System.out.println("新しい年齢を入力してください");
-                    int newAge = scanner.nextInt();
-                    String sql2 = "update employees set employee_age = ? where employee_id = ?";
-                    stmt = conn.prepareStatement(sql2);
-                    stmt.setInt(1,newAge);
-                    stmt.setInt(2,employeeId);
-                    int rows2 = stmt.executeUpdate();
-                    break;
-
-                case 3:
-                    System.out.println("新しい部署番号を入力してください");
-                    int newDepartmentId = scanner.nextInt();
-                    String sql3 = "update employees set department_id = ? where employee_id = ?";
-                    stmt = conn.prepareStatement(sql3);
-                    stmt.setInt(1,newDepartmentId);
-                    stmt.setInt(2,employeeId);
-                    int rows = stmt.executeUpdate();
-                    break;
-
-                default:
-                    System.out.println("正しい番号を入力してください");
+    /**
+     * 指定された従業員番号に一致する従業員情報を取得します。
+     * @param employeeId 取得したい従業員のID
+     * @return 該当する従業員情報（存在しない場合はnull）
+     * @throws SQLException データベース操作エラー
+     */
+    public EmployeeEntity getEmployeeById(int employeeId) throws SQLException {
+        String sql = "select * from employees where employee_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, employeeId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new EmployeeEntity(
+                            rs.getInt("employee_id"),
+                            rs.getString("employee_name"),
+                            rs.getInt("age"),
+                            rs.getInt("department_id")
+                    );
+                }
             }
-
         }
-        catch(SQLException e) {
-            e.printStackTrace();
-        }
+        return null;
     }
 
+    /**
+     * 従業員情報を更新します。
+     * @param employee 更新内容を含む従業員エンティティ（IDで更新対象を特定）
+     * @throws SQLException データベース操作エラー
+     */
+    public void updateEmployee(EmployeeEntity employee) throws SQLException {
+        String sql = "update employees set employee_name = ?, age = ?, department_id = ? where employee_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, employee.getEmployeeName());
+            stmt.setInt(2, employee.getAge());
+            stmt.setInt(3, employee.getDepartmentId());
+            stmt.setInt(4, employee.getEmployeeId());
+            stmt.executeUpdate();
+        }
+    }
 
     public ArrayList<EmployeeEntity> showEmployeeTable() throws SQLException{
         ArrayList<EmployeeEntity> list = new ArrayList<>();
         String sql = "select * from employees";
-        try {
-            stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
             while(rs.next()) {
-                EmployeeEntity emp = new EmployeeEntity(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getInt(4));
-
+                EmployeeEntity emp = new EmployeeEntity(
+                        rs.getInt("employee_id"),
+                        rs.getString("employee_name"),
+                        rs.getInt("age"),
+                        rs.getInt("department_id")
+                );
                 list.add(emp);
             }
-            return list;
         }
-        catch(SQLException e) {
-            System.out.println("異常が発生しました");
-        }
-
-        finally {
-
-            if(stmt != null) {
-                stmt.close();
-            }
-
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return null;
-
+        return list;
     }
 
     public String showDepartmentName(int showDepartmentEmployeeId) throws SQLException {
